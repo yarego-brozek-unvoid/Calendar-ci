@@ -10,7 +10,7 @@ export class LivroComponent {
   @Input() livro: Object;
   modalAberto: boolean;
 
-  onModelChange(evento: boolean) {
+  onModalChange(evento: boolean) {
     this.modalAberto = evento;
   }
 }

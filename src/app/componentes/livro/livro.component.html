@@ -10,10 +10,10 @@
     <p class="resultado">{{ livro }}</p>
     <p class="informacoes">Editora:</p>
     <p class="resultado">{{ livro }}</p>
-    <button>Mais detalhes</button>
+    <button (click)="onModalChange(true)">Mais detalhes</button>
   </div>
 </div>
 <div *ngIf="modalAberto">
-  <app-modal-livro [livro]="livro" (mudouModal)="onModelChange($event)"></app-modal-livro>
+  <app-modal-livro [livro]="livro" (mudouModal)="onModalChange($event)"></app-modal-livro>
 </div>
 
