@@ -1,28 +1,35 @@
-name: Deploy PR preview
+name: GitHub Pages
 
 on:
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - closed
-concurrency: preview-${{ github.ref }}
+  push:
+    branches:
+      - main
+
 jobs:
-  deploy-preview:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - name: Checkout
-          uses: AhsanAyaz/angular-deploy-gh-pages-actions@[1.4.0]
-          with:
-            github_access_token: ${{ secrets.GITHUB_TOKEN }}
-            build_configuration: production
-            base_href: /Calendar-ci/
-            deploy_branch: gh-pages
-            angular_dist_build_folder: ./dist/buscante
+        uses: actions/checkout@v3
 
-      - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          source-dir: ./dist/buscante
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test:headless
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: Deploy
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: dist/buscante
+          enable_jekyll: true
