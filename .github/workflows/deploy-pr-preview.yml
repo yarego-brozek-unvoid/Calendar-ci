@@ -23,4 +23,4 @@ jobs:
       - name: Deploy preview
         uses: rossjrw/pr-preview-action@v1
         with:
-          source-dir: ./dist/buscante/
+          source-dir: ./dist/buscante
