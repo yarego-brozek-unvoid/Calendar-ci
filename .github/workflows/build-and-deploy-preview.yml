@@ -1,7 +1,5 @@
 name: Reusable workflow example
 
-on:
-  workflow_call:
     inputs:
             preview-branch:
               description: Branch on which the previews will be deployed.
