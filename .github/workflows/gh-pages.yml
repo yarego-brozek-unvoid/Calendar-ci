@@ -23,6 +23,6 @@ jobs:
           npm run build
 
       - name: Deploy PR Preview
-          uses: ./build-and-deploy-preview.yml
+          uses: ./.github/workflows/build-and-deploy-preview.yml
           with:
           source-dir: ./build/gh-pages
