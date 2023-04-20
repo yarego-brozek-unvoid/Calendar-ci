@@ -22,7 +22,8 @@ jobs:
           npm install
           npm run build
 
-      - name: Deploy PR Preview
-          uses: rossjrw/pr-preview-action@v1
-          with:
-            source-dir: ./dist/gh-pages
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./dist/gh-pages
+a
