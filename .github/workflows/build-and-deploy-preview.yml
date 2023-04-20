@@ -1,12 +1,4 @@
-author: Ross Williams
-          description: >
-            Deploy a pull request preview to GitHub Pages, similar to Vercel and
-            Netlify.
-          branding:
-            icon: git-pull-request
-            color: yellow
-
-          inputs:
+inputs:
             preview-branch:
               description: Branch on which the previews will be deployed.
               required: false
