@@ -1,10 +1,13 @@
 name: GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+concurrency: preview-${{ github.ref }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
