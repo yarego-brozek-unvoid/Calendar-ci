@@ -23,6 +23,6 @@ jobs:
           npm run build
 
       - name: Deploy preview
-        uses: yarego-brozek-unvoid/pr-preview-action/main.yml
+        uses: yarego-brozek-unvoid/pr-preview-action/action.yml
         with:
           source-dir: ./dist/gh-pages
