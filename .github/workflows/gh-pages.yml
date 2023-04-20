@@ -22,7 +22,8 @@ jobs:
           npm install
           npm run build
 
-      name: Deploy PR Preview
+      - name: Deploy PR Preview
+        uses:
         author: Ross Williams
         description: >
           Deploy a pull request preview to GitHub Pages, similar to Vercel and
