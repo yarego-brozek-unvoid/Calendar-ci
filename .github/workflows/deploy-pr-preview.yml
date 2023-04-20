@@ -15,8 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-       - uses: actions/checkout@v3
-
       - name: All things angular
           uses: AhsanAyaz/angular-deploy-gh-pages-actions@1.4.0
           with:
