@@ -55,13 +55,27 @@ jobs:
           echo "datetime=$(date '+%Y-%m-%d %H:%M %Z')" >> $GITHUB_ENV
           echo "actionref=$actionref" >> $GITHUB_ENV
           echo "actionrepo=$actionrepo" >> $GITHUB_ENV
-
         shell: bash
 
       - name: Determine action version
         run: >-
-          ${{ github.action_path }}/lib/find-current-git-tag.sh
-          -p env.actionrepo -f env.actionref
+
+          if [ -z "$actionrepo" ] || [ -z "$actionref" ]; then
+            echo >&2 "some parameters are empty"
+            helpFunction
+          fi
+
+          echo >&2 "Determining preview action version"
+          echo >&2 "Cloning repository $actionrepo at ref $actionref"
+          if git clone --bare --single-branch --branch "$actionref" "https://github.com/$actionrepo" bare_pr_preview; then
+            echo >&2 "Finding most specific tag matching tag $actionref"
+            action_version=$(git describe --tags --match "v*.*.*" || git describe --tags || git rev-parse HEAD)
+            echo >&2 "Found $action_version"
+            echo "action_version=$action_version" >>"$GITHUB_ENV"
+          else
+            echo >&2 "Clone failed; using truncated ref as action version"
+            echo "action_version=${git_ref:0:9}" >>"$GITHUB_ENV"
+          fi
         shell: bash
 
       - name: Determine auto action
