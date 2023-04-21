@@ -91,6 +91,8 @@ jobs:
             echo >&2 "Clone failed; using truncated ref as action version"
             echo "action_version=${git_ref:0:9}" >>"$GITHUB_ENV"
           fi
+
+          -p $actionrepo -f $actionref
         shell: bash
 
       - name: Determine auto action
