@@ -20,4 +20,4 @@ jobs:
       - name: Deploy preview
         uses: yarego-brozek-unvoid/Angular-PR-preview@1.19.0
         with:
-          source-dir: ./dist/gh-pages
+          source-dir: ./docs
