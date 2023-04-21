@@ -17,10 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-runs:
-  using: composite
-  steps:
     - name: Store environment variables
       env:
         action:
