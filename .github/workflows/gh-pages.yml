@@ -62,7 +62,6 @@ jobs:
 
           if [ -z "$actionrepo" ] || [ -z "$actionref" ]; then
             echo >&2 "some parameters are empty"
-            helpFunction
           fi
 
           echo >&2 "Determining preview action version"
