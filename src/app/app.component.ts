@@ -2,6 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { GithubAuthProvider, getAdditionalUserInfo, getAuth, signInWithPopup } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyAAZHESmlYbRW6oJBoe73-KomxzjwyFT_E",
+  authDomain: "github-auth-bd424.firebaseapp.com",
+  projectId: "github-auth-bd424",
+  storageBucket: "github-auth-bd424.appspot.com",
+  messagingSenderId: "261495181956",
+  appId: "1:261495181956:web:f6deade856d462463ea8d1"
+};
+
+initializeApp(firebaseConfig);
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,19 +20,10 @@ import { initializeApp } from "firebase/app";
 })
 export class AppComponent implements OnInit {
   title = 'firebase auth';
-  firebaseConfig = {
-    apiKey: "AIzaSyAAZHESmlYbRW6oJBoe73-KomxzjwyFT_E",
-    authDomain: "github-auth-bd424.firebaseapp.com",
-    projectId: "github-auth-bd424",
-    storageBucket: "github-auth-bd424.appspot.com",
-    messagingSenderId: "261495181956",
-    appId: "1:261495181956:web:f6deade856d462463ea8d1"
-  };
   auth = getAuth();
   provider = new GithubAuthProvider();
 
   ngOnInit() {
-    initializeApp(this.firebaseConfig);
   }
 
 
@@ -30,8 +32,10 @@ public sign() {
   this.provider.setCustomParameters({
     'allow_signup': 'false'
   });
+  console.log("heyyy")
 
   signInWithPopup(this.auth, this.provider).then((result) => {
+    console.log("oiii")
     // This gives you a GitHub Access Token. You can use it to access the GitHub API.
     const credential = GithubAuthProvider.credentialFromResult(result);
     const token = credential;
