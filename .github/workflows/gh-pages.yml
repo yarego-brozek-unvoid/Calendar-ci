@@ -57,12 +57,6 @@ jobs:
           echo "actionrepo=$actionrepo" >> $GITHUB_ENV
         shell: bash
 
-      - name: Determine action version
-        run: >-
-          ${{ github.action_path }}/lib/find-current-git-tag.sh
-          -p $actionrepo -f $actionref
-        shell: bash
-
       - name: Determine auto action
         if: env.action == 'auto'
         run: ${{ github.action_path }}/lib/determine-auto-action.sh
