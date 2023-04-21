@@ -59,11 +59,6 @@ jobs:
 
       - name: Determine action version
         run: >-
-
-          if [ -z "$actionrepo" ] || [ -z "$actionref" ]; then
-            echo >&2 "some parameters are empty"
-          fi
-
           echo >&2 "Determining preview action version"
           echo >&2 "Cloning repository $actionrepo at ref $actionref"
           if git clone --bare --single-branch --branch "$actionref" "https://github.com/$actionrepo" bare_pr_preview; then
