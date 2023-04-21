@@ -17,12 +17,12 @@ jobs:
           - name: Checkout
             uses: actions/checkout@v3
 
-        - name: Install and Build
-            run: |
-              npm ci
-              npx ng build --base-href /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
+          - name: Install and Build
+              run: |
+                npm ci
+                npx ng build --base-href /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
 
           - name: Deploy preview
-            uses: rossjrw/pr-preview-action@v1
-            with:
-              source-dir: ./dist/gh-pages
+              uses: rossjrw/pr-preview-action@v1
+              with:
+                source-dir: ./dist/gh-pages
