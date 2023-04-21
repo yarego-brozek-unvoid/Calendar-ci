@@ -13,16 +13,16 @@ concurrency: preview-${{ github.ref }}
 jobs:
   deploy-preview:
     runs-on: ubuntu-20.04
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v3
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v3
 
-      - name: Install and Build
-          run: |
-            npm ci
-            npx ng build --base-href /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
+        - name: Install and Build
+            run: |
+              npm ci
+              npx ng build --base-href /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
 
-        - name: Deploy preview
-          uses: rossjrw/pr-preview-action@v1
-          with:
-            source-dir: ./dist/gh-pages
+          - name: Deploy preview
+            uses: rossjrw/pr-preview-action@v1
+            with:
+              source-dir: ./dist/gh-pages
