@@ -17,98 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Store environment variables
-        env:
-          action: auto
-          umbrella: pr-preview
-          pr: ${{ github.event.number }}
-          actionref: ${{ github.action_ref }}
-          actionrepo: ${{ github.action_repository }}
-          customurl: ""
-        run: |
-          echo "action=$action" >> $GITHUB_ENV
-          echo "targetdir=$umbrella/pr-$pr" >> $GITHUB_ENV
-          echo "pr=$pr" >> $GITHUB_ENV
-          org=$(echo "$GITHUB_REPOSITORY" | cut -d "/" -f 1)
-          thirdleveldomain=$(echo "$GITHUB_REPOSITORY" | cut -d "/" -f 2 | cut -d "." -f 1)
-          if [ ! -z "$customurl" ]; then
-            pagesurl="$customurl"
-          elif [ "$org" == "$thirdleveldomain" ]; then
-            pagesurl="${org}.github.io"
-          else
-            pagesurl=$(echo "$GITHUB_REPOSITORY" | sed 's/\//.github.io\//')
-          fi
-          echo "pagesurl=$pagesurl" >> $GITHUB_ENV
-          echo "emptydir=$(mktemp -d)" >> $GITHUB_ENV
-          echo "datetime=$(date '+%Y-%m-%d %H:%M %Z')" >> $GITHUB_ENV
-          echo "actionref=$actionref" >> $GITHUB_ENV
-          echo "actionrepo=$actionrepo" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Determine auto action
-        if: env.action == 'auto'
-        run: ./.github/workflows/lib/determine-auto-action.sh
-        shell: bash
-
-      - name: Build Angular App
+     - name: Install and Build
         run: |
           npm ci
-          npx ng build --base-href /${{ github.event.repository.name }}/${{ env.targetdir }}/
-        shell: bash
+          npx ng build --base-href /${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.number }}/
 
-      - name: Deploy preview directory
-        if: env.action == 'deploy'
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Deploy preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          branch: gh-pages
-          folder: ./dist/gh-pages
-          target-folder: ${{ env.targetdir }}
-          commit-message: Deploy preview for PR ${{ env.pr }} 🛫
-          force: false
-
-      - name: Expose deployment URL
-        id: url
-        run: echo "::set-output name=url::https://${{ env.pagesurl }}/${{ env.targetdir }}/"
-        shell: bash
-
-      - name: Leave a comment after deployment
-        if: env.action == 'deploy' && env.deployment_status == 'success'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-preview
-          message: "\
-            [PR Preview Action]\
-            (${{ github.server_url }}/${{ env.actionrepo }})
-            ${{ env.action_version }}
-            :---:
-            :rocket: Deployed preview to
-            https://${{ env.pagesurl }}/${{ env.targetdir }}/
-            on branch [`gh-pages`](\
-            ${{ github.server_url }}/${{ github.repository }}\
-            /tree/gh-pages)
-            at ${{ env.datetime }}
-            "
-
-      - name: Remove preview directory
-        if: env.action == 'remove'
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: ${{ env.emptydir }}
-          target-folder: ${{ env.targetdir }}
-          commit-message: Remove preview for PR ${{ env.pr }} 🛬
-          force: false
-
-      - name: Leave a comment after removal
-        if: env.action == 'remove' && env.deployment_status == 'success'
-        uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          header: pr-preview
-          message: "\
-            [PR Preview Action]\
-            (${{ github.server_url }}/${{ env.actionrepo }})
-            ${{ env.action_version }}
-            :---:
-            Preview removed because the pull request was closed.
-            ${{ env.datetime }}
-            "
+          source-dir: ./dist/gh-pages
