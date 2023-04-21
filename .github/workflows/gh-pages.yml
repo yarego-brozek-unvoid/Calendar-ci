@@ -17,12 +17,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
-
       - name: Deploy preview
-        uses: yarego-brozek-unvoid/Angular-PR-preview@1.4.0
-        with:
-          source-dir: ./dist/gh-pages
+        uses: yarego-brozek-unvoid/Angular-PR-preview@1.5.0
