@@ -19,19 +19,7 @@ jobs:
 
       - name: Store environment variables
         env:
-          action:
-          description: >
-            Determines what this action will do when it is executed. Supported
-            values: `deploy`, `remove`, `auto` (default).
-            If set to `deploy`, will attempt to deploy the preview and overwrite
-            any existing preview in that location.
-            If set to `remove`, will attempt to remove the preview in that
-            location.
-            If set to `auto`, the action will try to determine whether to deploy
-            or remove the preview. It will deploy the preview on
-            `pull_request.types.synchronize` and `.opened` events, and remove it
-            on `pull_request.types.closed` events. It will not do anything for
-            all other events. `auto` is the default value.
+          action: auto
           umbrella: pr-preview
           pr: ${{ github.event.number }}
           actionref: ${{ github.action_ref }}
