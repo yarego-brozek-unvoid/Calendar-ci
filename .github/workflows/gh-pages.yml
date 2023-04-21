@@ -23,6 +23,6 @@ jobs:
           npm run build
 
       - name: Deploy preview
-        uses: yarego-brozek-unvoid/Angular-PR-preview@1.2.0
+        uses: yarego-brozek-unvoid/Angular-PR-preview/main.yml@main
         with:
           source-dir: ./dist/gh-pages
