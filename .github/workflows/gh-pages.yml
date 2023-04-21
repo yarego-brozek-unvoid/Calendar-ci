@@ -59,8 +59,8 @@ jobs:
 
       - name: Determine action version
         run: >-
-          echo >&2 "Determining preview action version"
-          echo >&2 "Cloning repository $actionrepo at ref $actionref"
+          echo >&2 "Determining preview action version";
+          echo >&2 "Cloning repository $actionrepo at ref $actionref";
           if [git clone --bare --single-branch --branch "$actionref" "https://github.com/$actionrepo" bare_pr_preview]; then
             echo >&2 "Finding most specific tag matching tag $actionref"
             action_version=$(git describe --tags --match "v*.*.*" || git describe --tags || git rev-parse HEAD)
