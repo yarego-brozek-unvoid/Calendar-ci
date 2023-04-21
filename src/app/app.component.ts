@@ -28,10 +28,6 @@ export class AppComponent implements OnInit {
 
 
 public sign() {
-  this.provider.addScope('repo');
-  this.provider.setCustomParameters({
-    'allow_signup': 'false'
-  });
   console.log("heyyy")
 
   signInWithPopup(this.auth, this.provider).then((result) => {
@@ -42,15 +38,16 @@ public sign() {
 
     // The signed-in user info.
     const user = result.user;
+    console.log(user)
 
     // IdP data available using getAdditionalUserInfo(result)
     // ...
     const moreInfo = getAdditionalUserInfo(result);
     console.log(moreInfo);
   }).catch((error) => {
+    console.log(error);
     // Handle Errors here.
     const errorCode = error.code;
-    console.log(error.message);
     const errorMessage = error.message;
     // The email of the user's account used.
     const email = error.customData.email;
