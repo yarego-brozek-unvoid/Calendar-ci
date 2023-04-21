@@ -58,7 +58,7 @@ jobs:
         shell: bash
 
       - name: Determine action version
-        run: >-
+        run: |
           ${{ github.action_path }}/lib/find-current-git-tag.sh
           -p $actionrepo -f $actionref
         shell: bash
