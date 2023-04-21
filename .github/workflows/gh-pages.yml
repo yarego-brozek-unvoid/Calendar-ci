@@ -45,24 +45,9 @@ jobs:
           echo "actionrepo=$actionrepo" >> $GITHUB_ENV
         shell: bash
 
-      - name: Determine action version
-        run: >-
-          echo >&2 "Determining preview action version";
-          echo >&2 "Cloning repository $actionrepo at ref $actionref";
-          if git clone --bare --single-branch --branch "$actionref" "https://github.com/$actionrepo" bare_pr_preview; then
-            echo >&2 "Finding most specific tag matching tag $actionref"
-            action_version=$(git describe --tags --match "v*.*.*" || git describe --tags || git rev-parse HEAD)
-            echo >&2 "Found $action_version"
-            echo "action_version=$action_version" >>"$GITHUB_ENV"
-          else
-            echo >&2 "Clone failed; using truncated ref as action version"
-            echo "action_version=${git_ref:0:9}" >>"$GITHUB_ENV"
-          fi
-        shell: bash
-
       - name: Determine auto action
         if: env.action == 'auto'
-        run: ./lib/determine-auto-action.sh
+        run: ./.github/workflows/lib/determine-auto-action.sh
         shell: bash
 
       - name: Build Angular App
