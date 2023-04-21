@@ -1,4 +1,4 @@
-name: Deploy PR preview
+name: Deploy PR previews
 
 on:
   pull_request:
@@ -7,20 +7,17 @@ on:
       - reopened
       - synchronize
       - closed
+
 concurrency: preview-${{ github.ref }}
+
 jobs:
   deploy-preview:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
-
       - name: Deploy preview
-        uses: rossjrw/pr-preview-action@v1
+        uses: yarego-brozek-unvoid/Angular-PR-preview@1.19.0
         with:
-          source-dir: ./dist/
+          source-dir: ./dist/gh-pages
